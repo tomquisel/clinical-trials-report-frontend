@@ -1,0 +1,10 @@
+{
+  "extends": ["tslint:recommended", "tslint-react"],
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+  },
+  "rules": {
+    "ordered-imports": false,
+    "quotemark": [true, "double"]
+  }
+}
