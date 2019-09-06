@@ -9,6 +9,10 @@ This web app summarizes ways that studies on clinicaltrials.gov are not reported
 * React
 * Apollo
 * GraphQL
+* Typescript
+* TSLint
+* Prettier
+* VSCode (recommended editor)
 
 ## Available Scripts
 
