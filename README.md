@@ -1,5 +1,7 @@
 # Clinical Trials Report Frontend
 
+[![CircleCI](https://circleci.com/gh/tomquisel/clinical-trials-report-frontend.svg?style=svg)](https://circleci.com/gh/tomquisel/clinical-trials-report-frontend)
+
 ## Overview
 
 This web app summarizes ways that studies on clinicaltrials.gov are not reported properly. This repo is the frontend for it.
