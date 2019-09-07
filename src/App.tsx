@@ -1,26 +1,32 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Counter from "./components/Counter";
+import Counter3 from "./components/Counter2";
+import Decrement from "./components/Counter/Decrement";
+import Increment from "./components/Counter/Increment";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+import logo from "./logo.svg";
+
+class App extends React.Component {
+  public render() {
+    return (
+      <div className="App">
+        <h3>Counter</h3>
+        <Counter />
+        <Decrement />
+        <Increment />
+        <h3>Counter 2</h3>
+        <Counter3 />
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p className="App-intro">
+          To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 export default App;

@@ -6,9 +6,9 @@ const query = gql`
   }
 `;
 
-const query3 = gql`
+const query2 = gql`
   {
-    counter3 @client
+    counter2 @client
   }
 `;
 
@@ -24,17 +24,17 @@ export default {
       return nextCounter;
     },
 
-    decrementCounter3: (_: any, params: any, { cache }: any) => {
+    decrementCounter2: (_: any, params: any, { cache }: any) => {
       const amount =
         params !== null && params.amount !== undefined
           ? (params.amount as number)
           : 1;
-      const { counter3 }: { counter3: number } = cache.readQuery({
-        query: query3,
+      const { counter2 }: { counter2: number } = cache.readQuery({
+        query: query2,
       });
-      const nextCounter = counter3 - amount;
+      const nextCounter = counter2 - amount;
       const data = {
-        counter3: nextCounter,
+        counter2: nextCounter,
       };
       cache.writeData({ data });
       return nextCounter;
@@ -50,17 +50,17 @@ export default {
       return nextCounter;
     },
 
-    incrementCounter3: (_: any, params: any, { cache }: any) => {
+    incrementCounter2: (_: any, params: any, { cache }: any) => {
       const amount =
         params !== null && params.amount !== undefined
           ? (params.amount as number)
           : 1;
-      const { counter3 }: { counter3: number } = cache.readQuery({
-        query: query3,
+      const { counter2 }: { counter2: number } = cache.readQuery({
+        query: query2,
       });
-      const nextCounter = counter3 + amount;
+      const nextCounter = counter2 + amount;
       const data = {
-        counter3: nextCounter,
+        counter2: nextCounter,
       };
       cache.writeData({ data });
       return nextCounter;

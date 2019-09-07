@@ -1,4 +1,4 @@
 export default {
   counter: 0,
-  counter3: 0,
+  counter2: 0,
 };

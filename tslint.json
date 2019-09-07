@@ -5,6 +5,7 @@
   },
   "rules": {
     "ordered-imports": false,
-    "quotemark": [true, "double"]
+    "quotemark": [true, "double"],
+    "jsx-no-multiline-js": false
   }
 }

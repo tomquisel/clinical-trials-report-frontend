@@ -1,51 +1,56 @@
 import gql from "graphql-tag";
-import * as React from "react";
-import { Mutation, Query } from "react-apollo";
+import React from "react";
+import { Mutation, useQuery } from "react-apollo";
 import Counter2View from "./Counter2View";
 
-interface IData {
-  counter: number;
+const AMOUNT = 5;
+interface ICounter {
+  counter2?: number;
 }
 const GET_COUNTER = gql`
   {
-    counter @client
+    counter2 @client
   }
 `;
 
 const INCREMENT_COUNTER = gql`
-  mutation {
-    incrementCounter @client
+  mutation IncrementCounter2By($amount: Int) {
+    incrementCounter2(amount: $amount) @client
   }
 `;
 
 const DECREMENT_COUNTER = gql`
-  mutation {
-    decrementCounter @client
+  mutation DecrementCounter2By($amount: Int) {
+    decrementCounter2(amount: $amount) @client
   }
 `;
 
-class Counter2Query extends Query<IData, {}> {}
-
-const Counter2 = () => (
-  <Counter2Query query={GET_COUNTER}>
-    {({ data: { counter = 0 } = {} }) => {
-      return (
-        <Mutation mutation={DECREMENT_COUNTER}>
-          {(decrementCounter) => (
-            <Mutation mutation={INCREMENT_COUNTER}>
-              {(incrementCounter) => (
-                <Counter2View
-                  counter={counter}
-                  decrementCounter={decrementCounter}
-                  incrementCounter={incrementCounter}
-                />
-              )}
-            </Mutation>
+const Counter2 = () => {
+  const { data, loading, error } = useQuery<ICounter>(GET_COUNTER);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>ERROR</p>;
+  }
+  if (!data) {
+    return <p>No data</p>;
+  }
+  return (
+    <Mutation mutation={DECREMENT_COUNTER} variables={{ amount: AMOUNT }}>
+      {(decrementCounter: any) => (
+        <Mutation mutation={INCREMENT_COUNTER} variables={{ amount: AMOUNT }}>
+          {(incrementCounter: any) => (
+            <Counter2View
+              counter={data.counter2 || 0}
+              decrementCounter={decrementCounter}
+              incrementCounter={incrementCounter}
+            />
           )}
         </Mutation>
-      );
-    }}
-  </Counter2Query>
-);
+      )}
+    </Mutation>
+  );
+};
 
 export default Counter2;
