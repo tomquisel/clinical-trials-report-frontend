@@ -1,6 +1,5 @@
 import React from "react";
-import Button from "antd/es/button";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Button } from "antd";
 import Example from "components/Example";
 import "App.css";
 
