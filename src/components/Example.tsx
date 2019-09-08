@@ -8,7 +8,7 @@ import "App.css";
 import logo from "logo.svg";
 
 const Example = () => (
-  <div className="App">
+  <div>
     <h3>Counter</h3>
     <Counter />
     <Decrement />

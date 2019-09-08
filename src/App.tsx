@@ -2,7 +2,7 @@ import defaults from "graphql/defaults";
 import resolvers from "graphql/resolvers";
 import typeDefs from "graphql/typeDefs";
 import React from "react";
-import Example from "components/Example";
+import Site from "components/Site";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
@@ -18,7 +18,9 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <Example />
+    <div className="App">
+      <Site />
+    </div>
   </ApolloProvider>
 );
 
