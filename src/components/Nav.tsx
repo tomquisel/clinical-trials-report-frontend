@@ -29,26 +29,4 @@ function Nav({ location }: { location: { pathname: string } }) {
   );
 }
 
-const RoutedNav = withRouter(Nav);
-
-function Site() {
-  return (
-    <Router>
-      <Layout className="layout">
-        <Header>
-          <div className="logo" />
-          <RoutedNav />
-        </Header>
-        <Content style={{ padding: "0 50px" }}>
-          <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-            <Route exact={true} path="/" component={Home} />
-            <Route path="/institutions" component={Institutions} />
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>Footer</Footer>
-      </Layout>
-    </Router>
-  );
-}
-
-export default Site;
+export default withRouter(Nav);
