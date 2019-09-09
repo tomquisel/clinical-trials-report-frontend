@@ -5,6 +5,7 @@ import React from "react";
 import Site from "components/Site";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import "App.css";
 
 const URI = "unused";
 const client = new ApolloClient({
