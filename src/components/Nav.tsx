@@ -1,15 +1,6 @@
 import React from "react";
-import { Layout, Menu } from "antd";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  withRouter,
-} from "react-router-dom";
-import Home from "pages/Home";
-import Institutions from "pages/Institutions";
-
-const { Header, Content, Footer } = Layout;
+import { Menu } from "antd";
+import { Link, withRouter } from "react-router-dom";
 
 function Nav({ location }: { location: { pathname: string } }) {
   return (
@@ -20,7 +11,7 @@ function Nav({ location }: { location: { pathname: string } }) {
       selectedKeys={[location.pathname]}
     >
       <Menu.Item key="/">
-        <Link to="/">Home</Link>
+        <Link to="/">About</Link>
       </Menu.Item>
       <Menu.Item key="/institutions">
         <Link to="/institutions">Institutions</Link>
