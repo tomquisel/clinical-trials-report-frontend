@@ -6,51 +6,57 @@ import { useQuery } from "react-apollo";
 const columns = [
   {
     name: "Institution",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "orgName",
+    key: "orgName",
   },
   {
-    title: "Trials",
-    dataIndex: "trials",
-    key: "trials",
+    title: "Type",
+    dataIndex: "orgType",
+    key: "orgType",
   },
   {
-    title: "Results on time (%)",
-    dataIndex: "ontime",
-    key: "ontime",
+    title: "Trials Ready for Report",
+    dataIndex: "readyForReportCount",
+    key: "readyForReportCount",
+  },
+  {
+    title: "Trials Late",
+    dataIndex: "lateReportCount",
+    key: "lateReportCount",
   },
   {
     title: "Results late (%)",
-    dataIndex: "late",
-    key: "late",
-  },
-  {
-    title: "Results unreported (%)",
-    dataIndex: "missing",
-    key: "missing",
+    dataIndex: "lateReportRate",
+    key: "lateReportRate",
   },
 ];
 
 interface IInstitution {
-  name: string;
-  trials: number;
-  ontime: number;
-  late: number;
-  missing: number;
+  orgName: string;
+  orgType: string;
+  lateReportCount: number;
+  readyForReportCount: number;
+  lateReportRate: number;
 }
 
 interface IInstitutions {
-  institutions: IInstitution[];
+  allInstitutions: IInstitutionNodes;
+}
+
+interface IInstitutionNodes {
+  nodes: IInstitution[];
 }
 
 const GET_INSTITUTIONS = gql`
-  query Institutions {
-    institutions @client {
-      name
-      trials
-      ontime
-      late
-      missing
+  query {
+    allInstitutions {
+      nodes {
+        orgName
+        orgType
+        lateReportCount
+        readyForReportCount
+        lateReportRate
+      }
     }
   }
 `;
@@ -66,10 +72,12 @@ function Institutions() {
   if (!data) {
     return <p>No data</p>;
   }
-  const institutions = data.institutions.map((ins, index) => ({
+  const institutions = data.allInstitutions.nodes.map((ins, index) => ({
     ...ins,
     key: index,
-  }));
+  })).sort(
+    (a,b) => (a.readyForReportCount > b.readyForReportCount) ? -1 : (a.readyForReportCount < b.readyForReportCount) ? 1 : 0
+  );
   return <Table dataSource={institutions} columns={columns} />;
 }
 

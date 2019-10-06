@@ -11,11 +11,13 @@ export default `
     incrementCounter3(amount: Int): Int
   }
 
-  type Institution {
-    name: String!
-    trials: Int!
-    ontime: Float!
-    late: Float!
-    missing: Float!
+  type Institution implements Node {
+    nodeId: ID!
+    id: Int!
+    orgName: String
+    orgType: String
+    lateReportCount: BigInt
+    readyForReportCount: BigInt
+    lateReportRate: Float
   }
 `;

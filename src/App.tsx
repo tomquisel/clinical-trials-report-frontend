@@ -7,7 +7,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import "App.css";
 
-const URI = "unused";
+const URI = "http://0.0.0.0:5000/graphql";
 const client = new ApolloClient({
   clientState: {
     defaults,
