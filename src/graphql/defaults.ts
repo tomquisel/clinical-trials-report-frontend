@@ -1,9 +1,9 @@
 export default {
   counter: 0,
   counter2: 0,
-  institutions: [
+  organizations: [
     {
-      __typename: "Institution",
+      __typename: "Organization",
       name: "AbbVie",
       trials: 10,
       ontime: 30,
@@ -11,7 +11,7 @@ export default {
       missing: 30,
     },
     {
-      __typename: "Institution",
+      __typename: "Organization",
       name: "Mount Sinai Medical Center",
       trials: 30,
       ontime: 60,

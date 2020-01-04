@@ -5,7 +5,7 @@ import { useQuery } from "react-apollo";
 
 const columns = [
   {
-    name: "Institution",
+    name: "Organization",
     dataIndex: "name",
     key: "name",
   },
@@ -31,7 +31,7 @@ const columns = [
   },
 ];
 
-interface IInstitution {
+interface IOrganization {
   name: string;
   trials: number;
   ontime: number;
@@ -39,13 +39,13 @@ interface IInstitution {
   missing: number;
 }
 
-interface IInstitutions {
-  institutions: IInstitution[];
+interface IOrganizations {
+  organizations: IOrganization[];
 }
 
 const GET_INSTITUTIONS = gql`
-  query Institutions {
-    institutions @client {
+  query Organizations {
+    organizations @client {
       name
       trials
       ontime
@@ -55,8 +55,8 @@ const GET_INSTITUTIONS = gql`
   }
 `;
 
-function Institutions() {
-  const { data, loading, error } = useQuery<IInstitutions>(GET_INSTITUTIONS);
+function Organizations() {
+  const { data, loading, error } = useQuery<IOrganizations>(GET_INSTITUTIONS);
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -66,11 +66,11 @@ function Institutions() {
   if (!data) {
     return <p>No data</p>;
   }
-  const institutions = data.institutions.map((ins, index) => ({
+  const organizations = data.organizations.map((ins, index) => ({
     ...ins,
     key: index,
   }));
-  return <Table dataSource={institutions} columns={columns} />;
+  return <Table dataSource={organizations} columns={columns} />;
 }
 
-export default Institutions;
+export default Organizations;

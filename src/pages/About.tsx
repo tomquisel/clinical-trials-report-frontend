@@ -36,7 +36,7 @@ function Home() {
       </p>
       <ul>
         <li>
-          <Link to="/institutions">Institution</Link>
+          <Link to="/organizations">Organization</Link>
         </li>
         <li>
           <Link to="/principal-investigators">Principal Investigator</Link>
