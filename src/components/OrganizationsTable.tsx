@@ -6,57 +6,68 @@ import { useQuery } from "react-apollo";
 const columns = [
   {
     name: "Organization",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "orgFullName",
+    key: "orgFullName",
   },
   {
     title: "Trials",
-    dataIndex: "trials",
-    key: "trials",
+    dataIndex: "totalCount",
+    key: "totalCount",
   },
   {
     title: "Results on time (%)",
-    dataIndex: "ontime",
-    key: "ontime",
+    dataIndex: "onTimeFrac",
+    key: "onTimeFrac",
   },
   {
     title: "Results late (%)",
-    dataIndex: "late",
-    key: "late",
+    dataIndex: "lateFrac",
+    key: "lateFrac",
   },
   {
     title: "Results unreported (%)",
-    dataIndex: "missing",
-    key: "missing",
+    dataIndex: "missingFrac",
+    key: "missingFrac",
   },
 ];
 
-interface IOrganization {
-  name: string;
-  trials: number;
-  ontime: number;
-  late: number;
-  missing: number;
+interface IOrganizationEdge {
+  node: {
+    orgFullName: string;
+    totalCount: number;
+    shouldHaveResultsCount: number;
+    lateFrac: number;
+    missingFrac: number;
+    onTimeFrac: number;
+  }
 }
 
-interface IOrganizations {
-  organizations: IOrganization[];
+interface IAllOrganizations {
+  allOrganizations: {
+    edges: IOrganizationEdge[];
+  }
 }
 
-const GET_INSTITUTIONS = gql`
+const GET_ORGANIZATIONS = gql`
   query Organizations {
-    organizations @client {
-      name
-      trials
-      ontime
-      late
-      missing
-    }
+    allOrganizations {
+      edges{
+        node {
+          orgFullName
+          totalCount
+          shouldHaveResultsCount
+          lateFrac
+          missingFrac
+          onTimeFrac
+      	}
+   	  }
+  	}
   }
 `;
+console.log(GET_ORGANIZATIONS)
 
 function Organizations() {
-  const { data, loading, error } = useQuery<IOrganizations>(GET_INSTITUTIONS);
+  const { data, loading, error } = useQuery<IAllOrganizations>(GET_ORGANIZATIONS);
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -66,9 +77,8 @@ function Organizations() {
   if (!data) {
     return <p>No data</p>;
   }
-  const organizations = data.organizations.map((ins, index) => ({
-    ...ins,
-    key: index,
+  const organizations = data.allOrganizations.edges.map(edge => ({
+    ...edge.node
   }));
   return <Table dataSource={organizations} columns={columns} />;
 }
