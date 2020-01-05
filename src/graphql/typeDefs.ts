@@ -1,14 +1,6 @@
 export default `
   type Query {
-    counter: Int
     organizations: [Organization!]!
-  }
-
-  type Mutation {
-    decrementCounter(): Int
-    decrementCounter3(amount: Int): Int
-    incrementCounter(): Int
-    incrementCounter3(amount: Int): Int
   }
 
   type Organization {
