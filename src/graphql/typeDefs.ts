@@ -1,17 +1,9 @@
 export default `
   type Query {
-    counter: Int
-    institutions: [Institution!]!
+    organizations: [Organization!]!
   }
 
-  type Mutation {
-    decrementCounter(): Int
-    decrementCounter3(amount: Int): Int
-    incrementCounter(): Int
-    incrementCounter3(amount: Int): Int
-  }
-
-  type Institution {
+  type Organization {
     name: String!
     trials: Int!
     ontime: Float!

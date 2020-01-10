@@ -13,8 +13,8 @@ function Nav({ location }: { location: { pathname: string } }) {
       <Menu.Item key="/">
         <Link to="/">About</Link>
       </Menu.Item>
-      <Menu.Item key="/institutions">
-        <Link to="/institutions">Institutions</Link>
+      <Menu.Item key="/organizations">
+        <Link to="/organizations">Organizations</Link>
       </Menu.Item>
     </Menu>
   );

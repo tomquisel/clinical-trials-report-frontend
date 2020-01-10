@@ -2,7 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import About from "pages/About";
-import Institutions from "pages/Institutions";
+import Organizations from "pages/Organizations";
 import Nav from "components/Nav";
 
 const { Header, Content, Footer } = Layout;
@@ -18,7 +18,7 @@ function Site() {
         <Content style={{ padding: "0 50px" }}>
           <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
             <Route exact={true} path="/" component={About} />
-            <Route path="/institutions" component={Institutions} />
+            <Route path="/organizations" component={Organizations} />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>Footer</Footer>

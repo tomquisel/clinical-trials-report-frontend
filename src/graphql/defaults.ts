@@ -1,22 +1,20 @@
 export default {
-  counter: 0,
-  counter2: 0,
-  institutions: [
+  organizations: [
     {
-      __typename: "Institution",
-      name: "AbbVie",
-      trials: 10,
-      ontime: 30,
-      late: 40,
-      missing: 30,
+      __typename: "Organization",
+      orgFullName: "AbbVie",
+      totalCount: 10,
+      onTimeFrac: .30,
+      lateFrac: .40,
+      missingFrac: .30,
     },
     {
-      __typename: "Institution",
-      name: "Mount Sinai Medical Center",
-      trials: 30,
-      ontime: 60,
-      late: 20,
-      missing: 20,
+      __typename: "Organization",
+      orgFullName: "Mount Sinai Medical Center",
+      totalCount: 30,
+      onTimeFrac: .60,
+      lateFrac: .20,
+      missingFrac: .20,
     },
   ],
 };
