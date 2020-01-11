@@ -1,6 +1,6 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Table } from "antd";
+import { Table } from 'antd';
 import { useQuery } from "react-apollo";
 
 
