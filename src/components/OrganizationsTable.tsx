@@ -3,43 +3,56 @@ import gql from "graphql-tag";
 import { Table } from "antd";
 import { useQuery } from "react-apollo";
 
+
 const columns = [
   {
     name: "Organization",
     dataIndex: "orgFullName",
     key: "orgFullName",
+    onFilter: (value: string, record: IOrganization) => record.orgFullName.indexOf(value) === 0,
+    sorter: (a: IOrganization, b: IOrganization) => a.orgFullName.localeCompare(b.orgFullName)
   },
   {
     title: "Trials",
     dataIndex: "totalCount",
     key: "totalCount",
+    filters: [{text: '>20', value: '20'}, {text: '>50', value: '50'}],
+    onFilter: (value: number, record: IOrganization) => (record.totalCount - value) > 0,
+// This inexplicably doesn't work!!!!
+//     onFilter: (value: number, record: IOrganization) => record.totalCount > value,
+    sorter: (a: IOrganization, b: IOrganization) => a.totalCount - b.totalCount,
   },
   {
     title: "Results on time (%)",
     dataIndex: "onTimeFrac",
     key: "onTimeFrac",
+    sorter: (a: IOrganization, b: IOrganization) => a.onTimeFrac - b.onTimeFrac,
   },
   {
     title: "Results late (%)",
     dataIndex: "lateFrac",
     key: "lateFrac",
+    sorter: (a: IOrganization, b: IOrganization) => a.lateFrac - b.lateFrac,
   },
   {
     title: "Results unreported (%)",
     dataIndex: "missingFrac",
     key: "missingFrac",
+    sorter: (a: IOrganization, b: IOrganization) => a.missingFrac - b.missingFrac,
   },
 ];
 
-interface IOrganizationEdge {
-  node: {
+interface IOrganization {
     orgFullName: string;
     totalCount: number;
     shouldHaveResultsCount: number;
     lateFrac: number;
     missingFrac: number;
     onTimeFrac: number;
-  }
+}
+
+interface IOrganizationEdge {
+  node: IOrganization
 }
 
 interface IAllOrganizations {
@@ -80,7 +93,7 @@ function Organizations() {
   const organizations = data.allOrganizations.edges.map(edge => ({
     ...edge.node
   }));
-  return <Table dataSource={organizations} columns={columns} />;
+  return <Table dataSource={organizations} columns={columns} rowKey='orgFullName' />;
 }
 
 export default Organizations;

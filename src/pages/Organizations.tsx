@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "antd";
 import OrganizationsTable from "components/OrganizationsTable";
 
 function Organizations() {
