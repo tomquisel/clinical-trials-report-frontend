@@ -1,12 +1,12 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Table } from 'antd';
+import { Table } from "antd";
 import { useQuery } from "react-apollo";
 
 
 const columns = [
   {
-    name: "Organization",
+    title: "Organization",
     dataIndex: "orgFullName",
     key: "orgFullName",
     onFilter: (value: string, record: IOrganization) => record.orgFullName.indexOf(value) === 0,
@@ -77,9 +77,8 @@ const GET_ORGANIZATIONS = gql`
   	}
   }
 `;
-console.log(GET_ORGANIZATIONS)
 
-function Organizations() {
+function OrganizationsTable() {
   const { data, loading, error } = useQuery<IAllOrganizations>(GET_ORGANIZATIONS);
   if (loading) {
     return <p>Loading...</p>;
@@ -96,4 +95,4 @@ function Organizations() {
   return <Table dataSource={organizations} columns={columns} rowKey='orgFullName' />;
 }
 
-export default Organizations;
+export default OrganizationsTable;
