@@ -2,11 +2,13 @@ import React from "react";
 import gql from "graphql-tag";
 import { Table } from "antd";
 import { useQuery } from "react-apollo";
+import { FracToPercent } from "../utils/display_utils"
 
 
 interface IOrganization {
   id: string;
   orgFullName: string;
+  orgClass: string;
   totalCount: number;
   shouldHaveResultsCount: number;
   lateFrac: number;
@@ -26,6 +28,7 @@ interface ITrial {
   overallStatus: string;
   resultsFirstPostDate: string;
   resultsFirstSubmitDate: string;
+  shouldHaveResults: boolean;
   startDate: string;
   statusVerifiedDate: string;
 }
@@ -40,6 +43,11 @@ const GET_TRIALS_FOR_ORGANIZATION = gql`
       id
       orgFullName
       orgClass
+      totalCount
+      shouldHaveResultsCount
+      lateFrac
+      missingFrac
+      onTimeFrac
       trialsByOrgId {
         edges {
           node {
@@ -49,6 +57,7 @@ const GET_TRIALS_FOR_ORGANIZATION = gql`
             overallStatus
             resultsFirstPostDate
             resultsFirstSubmitDate
+            shouldHaveResults
             startDate
             statusVerifiedDate
           }
@@ -92,7 +101,9 @@ const columns = [
         a.officialTitle,
         b.officialTitle,
       )
-    )
+    ),
+    filters: [{text: 'Results Due', value: '1'}],
+    onFilter: (value: string, record: ITrial) => record.shouldHaveResults,
   },
   {
     title: "Start Date",
@@ -142,6 +153,11 @@ function OrganizationDetailsTable(organizationId: string) {
   return <div>
   <h1>Organization Details</h1>
   <h2>{data.organizationById.orgFullName}</h2>
+  <p>Class: {data.organizationById.orgClass}</p>
+  <p>Trials with results due: {data.organizationById.shouldHaveResultsCount}</p>
+  <p>Results on time (%): {FracToPercent(data.organizationById.onTimeFrac)}</p>
+  <p>Results late (%): {FracToPercent(data.organizationById.lateFrac)}</p>
+  <p>Results unreported (%): {FracToPercent(data.organizationById.missingFrac)}</p>
   <Table dataSource={org_trials} columns={columns} rowKey='id' />;
   </div>
 }
