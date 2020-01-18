@@ -21,11 +21,13 @@ interface IOrganization {
 
 interface ITrial {
   id: string;
+  completionDate: string;
   officialTitle: string;
   overallStatus: string;
-  startDate: string;
   resultsFirstPostDate: string;
   resultsFirstSubmitDate: string;
+  startDate: string;
+  statusVerifiedDate: string;
 }
 
 interface ITrialsForOrgResponse {
@@ -42,11 +44,13 @@ const GET_TRIALS_FOR_ORGANIZATION = gql`
         edges {
           node {
             id
+            completionDate
             officialTitle
             overallStatus
-            startDate
             resultsFirstPostDate
             resultsFirstSubmitDate
+            startDate
+            statusVerifiedDate
           }
         }
       }
@@ -54,13 +58,14 @@ const GET_TRIALS_FOR_ORGANIZATION = gql`
   }
 `;
 
-function NullStringSorterFunction(sorter: (a: string, b: string) => number): (a: string, b: string) => number {
+function NullStringSorterFunction(sorter: (a: string, b: string) => number, null_at_end=true): (a: string, b: string) => number {
   function NewSorter(a: string, b: string) {
+    const null_val = (null_at_end) ? 1 : -1
     if (a === null) {
-      return 1;
+      return null_val;
     }
     else if (b === null) {
-      return -1;
+      return -null_val;
     }
     else {
       return sorter(a, b)
@@ -93,16 +98,28 @@ const columns = [
     title: "Start Date",
     dataIndex: "startDate",
     key: "startDate",
-    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings)(a.startDate, b.startDate)
+    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.startDate, b.startDate)
+  },
+  {
+    title: "Completion Date",
+    dataIndex: "completionDate",
+    key: "completionDate",
+    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.completionDate, b.completionDate)
   },
   {
     title: "Results Submitted",
     dataIndex: "resultsFirstSubmitDate",
     key: "resultsFirstSubmitDate",
-    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings)(
+    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(
       a.resultsFirstSubmitDate,
       b.resultsFirstSubmitDate
     )
+  },
+  {
+    title: "Study Updated At",
+    dataIndex: "statusVerifiedDate",
+    key: "statusVerifiedDate",
+    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.statusVerifiedDate, b.statusVerifiedDate)
   },
 ]
 
