@@ -1,6 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Table } from "antd";
+import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo";
 
 
@@ -9,6 +10,7 @@ const columns = [
     title: "Organization",
     dataIndex: "orgFullName",
     key: "orgFullName",
+    render: (text: string, record: IOrganization) => <Link to={'/organization/' + record.id}>{record.orgFullName}</Link>,
     onFilter: (value: string, record: IOrganization) => record.orgFullName.indexOf(value) === 0,
     sorter: (a: IOrganization, b: IOrganization) => a.orgFullName.localeCompare(b.orgFullName)
   },
@@ -43,6 +45,7 @@ const columns = [
 ];
 
 interface IOrganization {
+    id: string;
     orgFullName: string;
     totalCount: number;
     shouldHaveResultsCount: number;
@@ -66,6 +69,7 @@ const GET_ORGANIZATIONS = gql`
     allOrganizations {
       edges{
         node {
+          id
           orgFullName
           totalCount
           shouldHaveResultsCount
