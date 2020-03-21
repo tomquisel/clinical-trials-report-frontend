@@ -16,14 +16,14 @@ const columns = [
     sorter: (a: IOrganization, b: IOrganization) => a.orgFullName.localeCompare(b.orgFullName)
   },
   {
-    title: "Trials",
-    dataIndex: "totalCount",
-    key: "totalCount",
+    title: "Reportable Trials",
+    dataIndex: "shouldHaveResultsCount",
+    key: "shouldHaveResultsCount",
     filters: [{text: '>20', value: '20'}, {text: '>50', value: '50'}],
-    onFilter: (value: number, record: IOrganization) => (record.totalCount - value) > 0,
+    onFilter: (value: number, record: IOrganization) => (record.shouldHaveResultsCount - value) > 0,
 // This inexplicably doesn't work!!!!
-//     onFilter: (value: number, record: IOrganization) => record.totalCount > value,
-    sorter: (a: IOrganization, b: IOrganization) => a.totalCount - b.totalCount,
+//     onFilter: (value: number, record: IOrganization) => record.shouldHaveResultsCount > value,
+    sorter: (a: IOrganization, b: IOrganization) => a.shouldHaveResultsCount - b.shouldHaveResultsCount,
   },
   {
     title: "Results on time (%)",
