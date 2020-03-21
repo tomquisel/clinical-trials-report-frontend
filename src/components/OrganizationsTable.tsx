@@ -1,10 +1,13 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Table } from "antd";
+import { SortOrder } from "antd/lib/table/interface"
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo";
 import { FracToPercent } from "../utils/display_utils"
 
+let default_sort: SortOrder;
+default_sort = 'descend'
 
 const columns = [
   {
@@ -24,6 +27,7 @@ const columns = [
 // This inexplicably doesn't work!!!!
 //     onFilter: (value: number, record: IOrganization) => record.shouldHaveResultsCount > value,
     sorter: (a: IOrganization, b: IOrganization) => a.shouldHaveResultsCount - b.shouldHaveResultsCount,
+    defaultSortOrder: default_sort,
   },
   {
     title: "Results on time (%)",
