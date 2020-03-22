@@ -102,6 +102,8 @@ const columns = [
         b.officialTitle,
       )
     ),
+    //render: (text: string, record: ITrial) => <Link to={'/organization/' + record.id}>{text}</Link>,
+    render: (text: string, record: ITrial) => <a href={'https://clinicaltrials.gov/ct2/show/' + record.id}>{text}</a>,
     filters: [{text: 'Results Due', value: '1'}],
     onFilter: (value: string, record: ITrial) => record.shouldHaveResults,
   },
