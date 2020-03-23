@@ -1,6 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Table } from "antd";
+import { SortOrder } from "antd/lib/table/interface"
 import { useQuery } from "react-apollo";
 import { FracToPercent } from "../utils/display_utils"
 
@@ -91,6 +92,9 @@ function CompareDateStrings(a: string, b: string): number {
   return Date.parse(a) - Date.parse(b)
 }
 
+let default_sort: SortOrder;
+default_sort = 'descend'
+
 const columns = [
   {
     title: "Study Title",
@@ -106,6 +110,7 @@ const columns = [
     render: (text: string, record: ITrial) => <a href={'https://clinicaltrials.gov/ct2/show/' + record.id}>{text}</a>,
     filters: [{text: 'Results Due', value: '1'}],
     onFilter: (value: string, record: ITrial) => record.shouldHaveResults,
+    filteredValue: ['1']
   },
   {
     title: "Start Date",
@@ -117,7 +122,8 @@ const columns = [
     title: "Completion Date",
     dataIndex: "primaryCompletionDate",
     key: "primaryCompletionDate",
-    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.primaryCompletionDate, b.primaryCompletionDate)
+    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.primaryCompletionDate, b.primaryCompletionDate),
+    defaultSortOrder: default_sort,
   },
   {
     title: "Results Submitted",
@@ -127,12 +133,6 @@ const columns = [
       a.resultsFirstSubmitDate,
       b.resultsFirstSubmitDate
     )
-  },
-  {
-    title: "Study Updated At",
-    dataIndex: "lastUpdateSubmitDate",
-    key: "lastUpdateSubmitDate",
-    sorter: (a: ITrial, b: ITrial) => NullStringSorterFunction(CompareDateStrings, false)(a.lastUpdateSubmitDate, b.lastUpdateSubmitDate)
   },
 ]
 

@@ -24,6 +24,7 @@ const columns = [
     key: "shouldHaveResultsCount",
     filters: [{text: '>20', value: '20'}, {text: '>50', value: '50'}],
     onFilter: (value: number, record: IOrganization) => (record.shouldHaveResultsCount - value) > 0,
+    filteredValue: ['20'],
 // This inexplicably doesn't work!!!!
 //     onFilter: (value: number, record: IOrganization) => record.shouldHaveResultsCount > value,
     sorter: (a: IOrganization, b: IOrganization) => a.shouldHaveResultsCount - b.shouldHaveResultsCount,
