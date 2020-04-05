@@ -24,12 +24,11 @@ const columns = [
     key: "briefTitle",
     sorter: (a: ITrial, b: ITrial) =>
       nullStringSorterFunction(compareStrings)(a.briefTitle, b.briefTitle),
-    // render: (text: string, record: ITrial) => <Link to={'/organization/' + record.id}>{text}</Link>,
-    render: (text: string, record: ITrial) => (
-      <a href={"https://clinicaltrials.gov/ct2/show/" + record.id}>{text}</a>
+    render: (value: number, record: ITrial) => (
+      <a href={"https://clinicaltrials.gov/ct2/show/" + record.id}>{value}</a>
     ),
     filters: [{ text: "Results Due", value: "1" }],
-    onFilter: (value: string, record: ITrial) => record.shouldHaveResults,
+    onFilter: (value: any, record: ITrial) => record.shouldHaveResults,
     filteredValue: ["1"],
   },
   {
