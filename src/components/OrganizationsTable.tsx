@@ -21,8 +21,8 @@ const columns = [
     render: (text: string, record: IOrganization) => (
       <Link to={"/organization/" + record.id}>{text}</Link>
     ),
-    onFilter: (value: string, record: IOrganization) =>
-      record.orgFullName.indexOf(value) === 0,
+    onFilter: (value: string | number | boolean, record: IOrganization) =>
+      record.orgFullName.indexOf(value.toString()) === 0,
     sorter: (a: IOrganization, b: IOrganization) =>
       a.orgFullName.localeCompare(b.orgFullName),
   },
@@ -34,9 +34,12 @@ const columns = [
       { text: ">20", value: "20" },
       { text: ">50", value: "50" },
     ],
-    filteredValue: ["20"],
-    onFilter: (value: number, record: IOrganization) =>
-      record.shouldHaveResultsCount > value,
+    filterMultiple: false,
+    defaultFilteredValue: ["20"],
+    onFilter: (value: number | string | boolean, record: IOrganization) => {
+      const val = typeof value === "string" ? parseFloat(value) : value;
+      return record.shouldHaveResultsCount > val;
+    },
     sorter: (a: IOrganization, b: IOrganization) =>
       a.shouldHaveResultsCount - b.shouldHaveResultsCount,
     defaultSortOrder: defaultSort,
