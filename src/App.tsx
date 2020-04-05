@@ -2,7 +2,7 @@ import React from "react";
 import Site from "components/Site";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import "App.css";
+import "style/App.css";
 
 const URI = "https://tomquisel.com/graphql";
 const client = new ApolloClient({
