@@ -1,41 +1,21 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
 import { fracToPercent } from "utils/displayUtils";
+import {
+  nullStringSorterFunction,
+  compareDateStrings,
+  compareStrings,
+} from "utils/sort";
 import {
   ITrial,
   ITrialsForOrgResponse,
   GET_TRIALS_FOR_ORGANIZATION,
 } from "graphql/queries";
 
-function NullStringSorterFunction(
-  sorter: (a: string, b: string) => number,
-  null_at_end = true,
-): (a: string, b: string) => number {
-  function NewSorter(a: string, b: string) {
-    const null_val = null_at_end ? 1 : -1;
-    if (a === null) {
-      return null_val;
-    } else if (b === null) {
-      return -null_val;
-    } else {
-      return sorter(a, b);
-    }
-  }
-  return NewSorter;
-}
-
-function CompareStrings(a: string, b: string): number {
-  return a.localeCompare(b);
-}
-
-function CompareDateStrings(a: string, b: string): number {
-  return Date.parse(a) - Date.parse(b);
-}
-
-let default_sort: SortOrder;
-default_sort = "descend";
+let defaultSort: SortOrder;
+defaultSort = "descend";
 
 const columns = [
   {
@@ -43,7 +23,7 @@ const columns = [
     dataIndex: "briefTitle",
     key: "briefTitle",
     sorter: (a: ITrial, b: ITrial) =>
-      NullStringSorterFunction(CompareStrings)(a.briefTitle, b.briefTitle),
+      nullStringSorterFunction(compareStrings)(a.briefTitle, b.briefTitle),
     // render: (text: string, record: ITrial) => <Link to={'/organization/' + record.id}>{text}</Link>,
     render: (text: string, record: ITrial) => (
       <a href={"https://clinicaltrials.gov/ct2/show/" + record.id}>{text}</a>
@@ -57,7 +37,7 @@ const columns = [
     dataIndex: "startDate",
     key: "startDate",
     sorter: (a: ITrial, b: ITrial) =>
-      NullStringSorterFunction(CompareDateStrings, false)(
+      nullStringSorterFunction(compareDateStrings, false)(
         a.startDate,
         b.startDate,
       ),
@@ -67,18 +47,18 @@ const columns = [
     dataIndex: "primaryCompletionDate",
     key: "primaryCompletionDate",
     sorter: (a: ITrial, b: ITrial) =>
-      NullStringSorterFunction(CompareDateStrings, false)(
+      nullStringSorterFunction(compareDateStrings, false)(
         a.primaryCompletionDate,
         b.primaryCompletionDate,
       ),
-    defaultSortOrder: default_sort,
+    defaultSortOrder: defaultSort,
   },
   {
     title: "Results Submitted",
     dataIndex: "resultsFirstSubmitDate",
     key: "resultsFirstSubmitDate",
     sorter: (a: ITrial, b: ITrial) =>
-      NullStringSorterFunction(CompareDateStrings, false)(
+      nullStringSorterFunction(compareDateStrings, false)(
         a.resultsFirstSubmitDate,
         b.resultsFirstSubmitDate,
       ),
@@ -88,11 +68,11 @@ const columns = [
 function OrganizationDetailsTable(organizationId: string) {
   const { data, loading, error } = useQuery<ITrialsForOrgResponse>(
     GET_TRIALS_FOR_ORGANIZATION,
-    { variables: { organizationId: parseInt(organizationId) } },
+    { variables: { organizationId: parseInt(organizationId, 10) } },
   );
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Spin size="large" />;
   }
   if (error) {
     return <p>ERROR</p>;
@@ -100,29 +80,20 @@ function OrganizationDetailsTable(organizationId: string) {
   if (!data) {
     return <p>No data</p>;
   }
-  console.log(
-    Date.parse(data.organizationById.trialsByOrgId.edges[0].node.startDate),
-  );
-  const org_trials = data.organizationById.trialsByOrgId.edges.map((edge) => ({
+  const { organizationById: orgs } = data;
+  const orgTrials = orgs.trialsByOrgId.edges.map((edge) => ({
     ...edge.node,
   }));
   return (
     <div>
       <h1>Organization Details</h1>
-      <h2>{data.organizationById.orgFullName}</h2>
-      <p>Class: {data.organizationById.orgClass}</p>
-      <p>
-        Trials with results due: {data.organizationById.shouldHaveResultsCount}
-      </p>
-      <p>
-        Results on time (%): {fracToPercent(data.organizationById.onTimeFrac)}
-      </p>
-      <p>Results late (%): {fracToPercent(data.organizationById.lateFrac)}</p>
-      <p>
-        Results unreported (%):{" "}
-        {fracToPercent(data.organizationById.missingFrac)}
-      </p>
-      <Table dataSource={org_trials} columns={columns} rowKey="id" />;
+      <h2>{orgs.orgFullName}</h2>
+      <p>Class: {orgs.orgClass}</p>
+      <p>Trials with results due: {orgs.shouldHaveResultsCount}</p>
+      <p>Results on time (%): {fracToPercent(orgs.onTimeFrac)}</p>
+      <p>Results late (%): {fracToPercent(orgs.lateFrac)}</p>
+      <p>Results unreported (%): {fracToPercent(orgs.missingFrac)}</p>
+      <Table dataSource={orgTrials} columns={columns} rowKey="id" />;
     </div>
   );
 }

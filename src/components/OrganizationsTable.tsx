@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo";
@@ -70,7 +70,7 @@ function OrganizationsTable() {
     GET_ORGANIZATIONS,
   );
   if (loading) {
-    return <p>Loading...</p>;
+    return <Spin size="large" />;
   }
   if (error) {
     return <p>ERROR</p>;
