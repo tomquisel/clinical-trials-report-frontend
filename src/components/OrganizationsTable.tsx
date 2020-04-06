@@ -91,16 +91,9 @@ function OrganizationsTable() {
       />
     );
   }
-  if (!data) {
-    return (
-      <Alert
-        message="No Data"
-        description="There's no data right now."
-        type="warning"
-      />
-    );
-  }
-  const organizations = data.allOrganizations.edges.map((edge) => edge.node);
+  const organizations = data
+    ? data.allOrganizations.edges.map((edge) => edge.node)
+    : [];
   return (
     <Table
       dataSource={organizations}

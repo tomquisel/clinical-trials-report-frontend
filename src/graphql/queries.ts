@@ -62,7 +62,7 @@ export interface ITrialsForOrgResponse {
 
 export const GET_ORGANIZATIONS = gql`
   query Organizations {
-    allOrganizations {
+    allOrganizations(condition: { hasRegulatedStudies: true }) {
       edges {
         node {
           id
