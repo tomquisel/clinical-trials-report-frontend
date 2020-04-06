@@ -21,7 +21,7 @@ function Site() {
             <Route exact={true} path="/" component={About} />
             <Route path="/organizations" component={Organizations} />
             <Route
-              path="/organization/:organizationId"
+              path="/organization/:orgId/:orgName"
               component={OrganizationDetails}
             />
           </div>

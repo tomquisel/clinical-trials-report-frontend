@@ -20,7 +20,13 @@ const columns = [
     key: "orgFullName",
     ellipsis: true,
     render: (text: string, record: IOrganization) => (
-      <Link to={"/organization/" + record.id}>{text}</Link>
+      <Link
+        to={`/organization/${record.id}/${record.orgFullName
+          .split(" ")
+          .join("-")}`}
+      >
+        {text}
+      </Link>
     ),
     onFilter: (value: string | number | boolean, record: IOrganization) =>
       record.orgFullName.indexOf(value.toString()) === 0,
