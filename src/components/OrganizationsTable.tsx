@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Spin } from "antd";
+import { Table, Spin, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo";
@@ -18,8 +18,15 @@ const columns = [
     title: "Organization",
     dataIndex: "orgFullName",
     key: "orgFullName",
+    ellipsis: true,
     render: (text: string, record: IOrganization) => (
-      <Link to={"/organization/" + record.id}>{text}</Link>
+      <Link
+        to={`/organization/${record.id}/${record.orgFullName
+          .split(" ")
+          .join("-")}`}
+      >
+        {text}
+      </Link>
     ),
     onFilter: (value: string | number | boolean, record: IOrganization) =>
       record.orgFullName.indexOf(value.toString()) === 0,
@@ -27,7 +34,7 @@ const columns = [
       a.orgFullName.localeCompare(b.orgFullName),
   },
   {
-    title: "Reportable Trials",
+    title: "Regulated Trials",
     dataIndex: "shouldHaveResultsCount",
     key: "shouldHaveResultsCount",
     filters: [
@@ -76,16 +83,24 @@ function OrganizationsTable() {
     return <Spin size="large" />;
   }
   if (error) {
-    return <p>ERROR</p>;
+    return (
+      <Alert
+        message="Error"
+        description="Failed to load table of research organizations"
+        type="error"
+      />
+    );
   }
-  if (!data) {
-    return <p>No data</p>;
-  }
-  const organizations = data.allOrganizations.edges.map((edge) => ({
-    ...edge.node,
-  }));
+  const organizations = data
+    ? data.allOrganizations.edges.map((edge) => edge.node)
+    : [];
   return (
-    <Table dataSource={organizations} columns={columns} rowKey="orgFullName" />
+    <Table
+      dataSource={organizations}
+      columns={columns}
+      rowKey="orgFullName"
+      pagination={{ pageSize: 50 }}
+    />
   );
 }
 

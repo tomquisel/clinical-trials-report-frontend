@@ -11,7 +11,7 @@ function Nav({ location }: { location: { pathname: string } }) {
       selectedKeys={[location.pathname]}
     >
       <Menu.Item key="/">
-        <Link to="/">About</Link>
+        <Link to="/">Home</Link>
       </Menu.Item>
       <Menu.Item key="/organizations">
         <Link to="/organizations">Organizations</Link>

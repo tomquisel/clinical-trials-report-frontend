@@ -1,48 +1,39 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Space, Typography } from "antd";
+import OrganizationsTable from "components/OrganizationsTable";
+
+const { Text } = Typography;
 
 function Home() {
   return (
-    <div>
-      <h1>Clinical Trials: A Hall of Shame </h1>
-      <p>
-        In 2000, the National Institutes of Health launched{" "}
-        <a href="https://clinicaltrials.gov">clinicaltrials.gov</a>, now the
-        largest database of clinical trials in the world. It was created to
-        improve the general public's access to clinical trials and allow
-        individuals with serious diseases to learn about experimental
-        treatments. To achieve this goal, it's essential that clinical trials
-        report their results. US legislators agree. In 2007, congress enacted
-        the{" "}
-        <a href="https://clinicaltrials.gov/ct2/manage-recs/fdaaa">
-          Food and Drug Administration Amendments Act
-        </a>
-        , requiring studies of FDA-regulated drugs or medical devices to report
-        their results within 12 months of completion. Violators face stiff
-        fines, but the FDA hasn't acted, and{" "}
-        <a href="https://www.statnews.com/2015/12/13/clinical-trials-investigation/">
-          has left billions
-        </a>{" "}
-        in fines on the table. The problem has persisted for years. As of 2019,
-        more than{" "}
-        <a href="https://www.statnews.com/pharmalot/2019/03/25/universities-clinical-trial-results-disclosure/">
-          30% of recent clinical trials
-        </a>
-        required to report results have failed to do so.
-      </p>
-      <p>
-        Here you can find up-to-date reports on the worst offenders. They are
-        organized by:
-      </p>
-      <ul>
-        <li>
-          <Link to="/organizations">Organization</Link>
-        </li>
-        <li>
-          <Link to="/principal-investigators">Principal Investigator</Link>
-        </li>
-      </ul>
-    </div>
+    <Space direction="vertical" size="large">
+      <div>
+        <h1>Accountable Clinical Trials</h1>
+        <Text>
+          Publication bias is a major obstacle to scientific progress. Without a
+          full view of clinical trial results, both positive and negative, the
+          scientific community ends up drawing incorrect conclusions. The
+          National Institutes of Health (NIH) launched{" "}
+          <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> to address
+          this issue by:
+          <ul>
+            <li>requiring trial preregistration</li>
+            <li>requiring trials to publicly report results</li>
+          </ul>
+          for studies involving FDA-regulated drugs and devices.
+        </Text>
+        <h2>The Reality</h2>
+        <Text>
+          For the most part, it hasn't worked out. Universities and pharma
+          companies frequently report results late or not at all. This website
+          is here to hold research institutions to a higher standard. Let's see
+          who is making a strong effort, and who needs to improve.
+        </Text>
+      </div>
+      <div>
+        <OrganizationsTable />
+      </div>
+    </Space>
   );
 }
 
