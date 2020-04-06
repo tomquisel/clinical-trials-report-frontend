@@ -20,10 +20,13 @@ function Site() {
           <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
             <Route exact={true} path="/" component={About} />
             <Route path="/organizations" component={Organizations} />
-            <Route path="/organization/:organizationId" component={OrganizationDetails} />
+            <Route
+              path="/organization/:organizationId"
+              component={OrganizationDetails}
+            />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>Footer</Footer>
+        <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
     </Router>
   );

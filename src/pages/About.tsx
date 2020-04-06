@@ -18,9 +18,9 @@ function Home() {
           this issue by:
           <ul>
             <li>requiring trial preregistration*</li>
-            <li>requiring trials to publicly post results*</li>
+            <li>requiring trials to publicly report results*</li>
           </ul>
-          * for studies involving FDA-regulated drugs and devices.
+          * for studies involving FDA-regulated drugs and devices
         </Text>
         <h2>The Reality</h2>
         <Text>

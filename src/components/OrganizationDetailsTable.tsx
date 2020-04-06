@@ -1,14 +1,15 @@
 import React from "react";
-import { Table, Spin } from "antd";
+import { Table, Spin, Tag, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
-import { fracToPercent } from "utils/displayUtils";
+import { fracToPercent, formatDate } from "utils/displayUtils";
 import {
   nullStringSorterFunction,
   compareDateStrings,
   compareStrings,
 } from "utils/sort";
 import {
+  IOrganization,
   ITrial,
   ITrialsForOrgResponse,
   GET_TRIALS_FOR_ORGANIZATION,
@@ -22,6 +23,7 @@ const columns = [
     title: "Study Title",
     dataIndex: "briefTitle",
     key: "briefTitle",
+    width: 300,
     sorter: (a: ITrial, b: ITrial) =>
       nullStringSorterFunction(compareStrings)(a.briefTitle, b.briefTitle),
     render: (value: number, record: ITrial) => (
@@ -35,6 +37,7 @@ const columns = [
     title: "Start Date",
     dataIndex: "startDate",
     key: "startDate",
+    render: (value: Date, record: ITrial) => formatDate(value),
     sorter: (a: ITrial, b: ITrial) =>
       nullStringSorterFunction(compareDateStrings, false)(
         a.startDate,
@@ -45,6 +48,7 @@ const columns = [
     title: "Completion Date",
     dataIndex: "primaryCompletionDate",
     key: "primaryCompletionDate",
+    render: (value: Date, record: ITrial) => formatDate(value),
     sorter: (a: ITrial, b: ITrial) =>
       nullStringSorterFunction(compareDateStrings, false)(
         a.primaryCompletionDate,
@@ -56,11 +60,38 @@ const columns = [
     title: "Results Submitted",
     dataIndex: "resultsFirstSubmitDate",
     key: "resultsFirstSubmitDate",
+    render: (value: Date, record: ITrial) => formatDate(value),
     sorter: (a: ITrial, b: ITrial) =>
       nullStringSorterFunction(compareDateStrings, false)(
         a.resultsFirstSubmitDate,
         b.resultsFirstSubmitDate,
       ),
+  },
+];
+
+const summaryColumns = [
+  {
+    title: "Regulated Trials",
+    dataIndex: "shouldHaveResultsCount",
+    key: "shouldHaveResultsCount",
+  },
+  {
+    title: "Results on time (%)",
+    dataIndex: "onTimeFrac",
+    key: "onTimeFrac",
+    render: (text: string, record: IOrganization) => fracToPercent(text),
+  },
+  {
+    title: "Results late (%)",
+    dataIndex: "lateFrac",
+    key: "lateFrac",
+    render: (text: string, record: IOrganization) => fracToPercent(text),
+  },
+  {
+    title: "Results unreported (%)",
+    dataIndex: "missingFrac",
+    key: "missingFrac",
+    render: (text: string, record: IOrganization) => fracToPercent(text),
   },
 ];
 
@@ -74,25 +105,37 @@ function OrganizationDetailsTable(organizationId: string) {
     return <Spin size="large" />;
   }
   if (error) {
-    return <p>ERROR</p>;
+    return (
+      <Alert
+        message="Error"
+        description="Failed to load organization details"
+        type="error"
+      />
+    );
   }
   if (!data) {
-    return <p>No data</p>;
+    return (
+      <Alert
+        message="No Data"
+        description="There's no data right now."
+        type="warning"
+      />
+    );
   }
-  const { organizationById: orgs } = data;
-  const orgTrials = orgs.trialsByOrgId.edges.map((edge) => ({
-    ...edge.node,
-  }));
+  const { organizationById: org } = data;
+  const orgTrials = org.trialsByOrgId.edges.map((edge) => edge.node);
   return (
     <div>
-      <h1>Organization Details</h1>
-      <h2>{orgs.orgFullName}</h2>
-      <p>Class: {orgs.orgClass}</p>
-      <p>Trials with results due: {orgs.shouldHaveResultsCount}</p>
-      <p>Results on time (%): {fracToPercent(orgs.onTimeFrac)}</p>
-      <p>Results late (%): {fracToPercent(orgs.lateFrac)}</p>
-      <p>Results unreported (%): {fracToPercent(orgs.missingFrac)}</p>
-      <Table dataSource={orgTrials} columns={columns} rowKey="id" />;
+      <h2>
+        {org.orgFullName} <Tag color="blue">{org.orgClass}</Tag>
+      </h2>
+      <Table dataSource={[org]} columns={summaryColumns}></Table>
+      <Table
+        dataSource={orgTrials}
+        columns={columns}
+        rowKey="id"
+        pagination={{ pageSize: 50 }}
+      />
     </div>
   );
 }
