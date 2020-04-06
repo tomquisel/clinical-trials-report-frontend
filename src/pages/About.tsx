@@ -13,7 +13,7 @@ function Home() {
           Publication bias is a major obstacle to scientific progress. Without a
           full view of clinical trial results, both positive and negative, the
           scientific community ends up drawing incorrect conclusions. The
-          National Institutes of Health launched{" "}
+          National Institutes of Health (NIH) launched{" "}
           <a href="https://clinicaltrials.gov">clinicaltrials.gov</a> to address
           this issue by:
           <ul>
