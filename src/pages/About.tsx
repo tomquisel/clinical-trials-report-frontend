@@ -22,12 +22,11 @@ function Home() {
           </ul>
           for studies involving FDA-regulated drugs and devices.
         </Text>
-        <h2>The Reality</h2>
+        <h2>The Results</h2>
         <Text>
-          For the most part, it hasn't worked out. Universities and pharma
-          companies frequently report results late or not at all. This website
-          is here to hold research institutions to a higher standard. Let's see
-          who is making a strong effort, and who needs to improve.
+          Unfortunately, universities and pharma companies frequently report
+          results late or not at all. Let's see who is making a strong effort,
+          and who needs to improve.
         </Text>
       </div>
       <div>
