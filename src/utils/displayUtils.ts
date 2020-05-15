@@ -1,11 +1,16 @@
 import moment from "moment";
 
+export function numericValue(
+  fraction: string | number
+) {
+  return typeof fraction === "string" ? parseFloat(fraction) : fraction;
+}
+
 export function fracToPercent(
   fraction: string | number,
   decimalPlaces = 0,
 ): string {
-  const value = typeof fraction === "string" ? parseFloat(fraction) : fraction;
-  return (value * 100).toFixed(decimalPlaces);
+  return (numericValue(fraction) * 100).toFixed(decimalPlaces);
 }
 
 export function formatDate(d: Date): string {

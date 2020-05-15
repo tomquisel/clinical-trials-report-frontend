@@ -3,15 +3,29 @@ import { Table, Spin, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-apollo";
-import { fracToPercent } from "utils/displayUtils";
 import {
   IOrganization,
   IAllOrganizations,
   GET_ORGANIZATIONS,
 } from "graphql/queries";
+import { BarType } from "./PercentBar";
+import { PercentageTableCell } from "./PercentageTableCell";
 
 let defaultSort: SortOrder;
 defaultSort = "descend";
+
+const percentColumnRender = (barType: BarType) => {
+  return function (text: string, record: IOrganization) {
+    return (
+      <PercentageTableCell
+        type={ barType }
+        fraction={ text }
+        total={ record.shouldHaveResultsCount }
+        decimalPlaces={ 0 }
+      ></PercentageTableCell>
+    );
+  }
+}
 
 const columns = [
   {
@@ -55,21 +69,21 @@ const columns = [
     title: "Results on time (%)",
     dataIndex: "onTimeFrac",
     key: "onTimeFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Success),
     sorter: (a: IOrganization, b: IOrganization) => a.onTimeFrac - b.onTimeFrac,
   },
   {
     title: "Results late (%)",
     dataIndex: "lateFrac",
     key: "lateFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Warning),
     sorter: (a: IOrganization, b: IOrganization) => a.lateFrac - b.lateFrac,
   },
   {
     title: "Results unreported (%)",
     dataIndex: "missingFrac",
     key: "missingFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Danger),
     sorter: (a: IOrganization, b: IOrganization) =>
       a.missingFrac - b.missingFrac,
   },

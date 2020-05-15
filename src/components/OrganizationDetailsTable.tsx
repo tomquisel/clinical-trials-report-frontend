@@ -2,7 +2,9 @@ import React from "react";
 import { Table, Spin, Tag, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
-import { fracToPercent, formatDate } from "utils/displayUtils";
+import { BarType } from "./PercentBar";
+import { PercentageTableCell } from "./PercentageTableCell";
+import { formatDate } from "utils/displayUtils";
 import {
   nullStringSorterFunction,
   compareDateStrings,
@@ -69,6 +71,19 @@ const columns = [
   },
 ];
 
+const percentColumnRender = (barType: BarType) => {
+  return function (text: string, record: IOrganization) {
+    return (
+      <PercentageTableCell
+        type={ barType }
+        fraction={ text }
+        total={ record.shouldHaveResultsCount }
+        decimalPlaces={ 0 }
+      ></PercentageTableCell>
+    );
+  }
+}
+
 const summaryColumns = [
   {
     title: "Regulated Trials",
@@ -79,19 +94,19 @@ const summaryColumns = [
     title: "Results on time (%)",
     dataIndex: "onTimeFrac",
     key: "onTimeFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Success),
   },
   {
     title: "Results late (%)",
     dataIndex: "lateFrac",
     key: "lateFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Warning),
   },
   {
     title: "Results unreported (%)",
     dataIndex: "missingFrac",
     key: "missingFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Danger),
   },
 ];
 
