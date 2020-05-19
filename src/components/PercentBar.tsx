@@ -2,13 +2,13 @@ import React from "react";
 import { numericValue } from "utils/displayUtils";
 
 export enum BarType {
-  Success = "#027d11",
-  Warning = "#c9bc2a",
-  Danger = "#8a0b0b",
-  Neutral = "#e8e4d8",
-  LightGray = "#e3e3e3",
-  Grey = "#9c9c9c",
-  Black = "#000000",
+  Success = "#237804",   // antd @green-8
+  Warning = "#d4b106",   // antd @yellow-7
+  Danger = "#820014",    // antd @red-9
+  Neutral = "#fffbe6",   // antd @gold-1
+  LightGray = "#f0f0f0", // antd @gray-4
+  Grey = "#8c8c8c",      // antd @gray-7
+  Black = "#000000",     // antd @gray-13
 }
 
 export function PercentBar({
