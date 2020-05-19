@@ -1,13 +1,18 @@
-import React from 'react';
-import { PercentWithValue } from './PercentWithValue';
-import { PercentBar, BarType } from './PercentBar';
-import { numericValue } from 'utils/displayUtils';
+import React from "react";
+import { PercentWithValue } from "components/PercentWithValue";
+import { PercentBar, BarType } from "components/PercentBar";
+import { numericValue } from "utils/displayUtils";
 
-export function PercentageTableCell({ type, fraction, total, decimalPlaces }: {
-  type: BarType,
-  fraction: string | number,
-  total: number,
-  decimalPlaces: number
+export function PercentageTableCell({
+  type,
+  fraction,
+  total,
+  decimalPlaces,
+}: {
+  type: BarType;
+  fraction: string | number;
+  total: number;
+  decimalPlaces: number;
 }) {
   const val = numericValue(fraction);
   return (
@@ -17,10 +22,7 @@ export function PercentageTableCell({ type, fraction, total, decimalPlaces }: {
         fraction={val}
         decimalPlaces={decimalPlaces}
       ></PercentWithValue>
-      <PercentBar
-        type={type}
-        fraction={val}
-      ></PercentBar>
+      <PercentBar type={type} fraction={val}></PercentBar>
     </>
-  )  
+  );
 }

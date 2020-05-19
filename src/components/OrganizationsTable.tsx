@@ -8,8 +8,8 @@ import {
   IAllOrganizations,
   GET_ORGANIZATIONS,
 } from "graphql/queries";
-import { BarType } from "./PercentBar";
-import { PercentageTableCell } from "./PercentageTableCell";
+import { BarType } from "components/PercentBar";
+import { PercentageTableCell } from "components/PercentageTableCell";
 
 let defaultSort: SortOrder;
 defaultSort = "descend";
@@ -18,14 +18,14 @@ const percentColumnRender = (barType: BarType) => {
   return function (text: string, record: IOrganization) {
     return (
       <PercentageTableCell
-        type={ barType }
-        fraction={ text }
-        total={ record.shouldHaveResultsCount }
-        decimalPlaces={ 0 }
+        type={barType}
+        fraction={text}
+        total={record.shouldHaveResultsCount}
+        decimalPlaces={0}
       ></PercentageTableCell>
     );
-  }
-}
+  };
+};
 
 const columns = [
   {

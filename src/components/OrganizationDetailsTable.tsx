@@ -2,8 +2,8 @@ import React from "react";
 import { Table, Spin, Tag, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
-import { BarType } from "./PercentBar";
-import { PercentageTableCell } from "./PercentageTableCell";
+import { BarType } from "components/PercentBar";
+import { PercentageTableCell } from "components/PercentageTableCell";
 import { formatDate } from "utils/displayUtils";
 import {
   nullStringSorterFunction,
@@ -75,14 +75,14 @@ const percentColumnRender = (barType: BarType) => {
   return function (text: string, record: IOrganization) {
     return (
       <PercentageTableCell
-        type={ barType }
-        fraction={ text }
-        total={ record.shouldHaveResultsCount }
-        decimalPlaces={ 0 }
+        type={barType}
+        fraction={text}
+        total={record.shouldHaveResultsCount}
+        decimalPlaces={0}
       ></PercentageTableCell>
     );
-  }
-}
+  };
+};
 
 const summaryColumns = [
   {

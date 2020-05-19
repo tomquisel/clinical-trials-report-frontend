@@ -1,8 +1,6 @@
 import moment from "moment";
 
-export function numericValue(
-  fraction: string | number
-) {
+export function numericValue(fraction: string | number) {
   return typeof fraction === "string" ? parseFloat(fraction) : fraction;
 }
 
