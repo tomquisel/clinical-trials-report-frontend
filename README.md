@@ -14,6 +14,7 @@ This web app summarizes ways that studies on clinicaltrials.gov are not reported
 * Typescript
 * TSLint
 * Prettier
+* Ant Design
 * VSCode (recommended editor)
 
 ## Available Scripts
