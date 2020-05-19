@@ -2,14 +2,15 @@ import React from "react";
 import { Table, Spin, Tag, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
-import { fracToPercent, formatDate } from "utils/displayUtils";
+import { BarType } from "components/PercentBar";
+import { percentColumnRender } from "components/PercentageTableCell";
+import { formatDate } from "utils/displayUtils";
 import {
   nullStringSorterFunction,
   compareDateStrings,
   compareStrings,
 } from "utils/sort";
 import {
-  IOrganization,
   ITrial,
   ITrialsForOrgResponse,
   GET_TRIALS_FOR_ORGANIZATION,
@@ -79,19 +80,19 @@ const summaryColumns = [
     title: "Results on time (%)",
     dataIndex: "onTimeFrac",
     key: "onTimeFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Success),
   },
   {
     title: "Results late (%)",
     dataIndex: "lateFrac",
     key: "lateFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Warning),
   },
   {
     title: "Results unreported (%)",
     dataIndex: "missingFrac",
     key: "missingFrac",
-    render: (text: string, record: IOrganization) => fracToPercent(text),
+    render: percentColumnRender(BarType.Danger),
   },
 ];
 
