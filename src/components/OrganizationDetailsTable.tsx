@@ -3,7 +3,7 @@ import { Table, Spin, Tag, Alert } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { useQuery } from "react-apollo";
 import { BarType } from "components/PercentBar";
-import { PercentageTableCell } from "components/PercentageTableCell";
+import { percentColumnRender } from "components/PercentageTableCell";
 import { formatDate } from "utils/displayUtils";
 import {
   nullStringSorterFunction,
@@ -11,7 +11,6 @@ import {
   compareStrings,
 } from "utils/sort";
 import {
-  IOrganization,
   ITrial,
   ITrialsForOrgResponse,
   GET_TRIALS_FOR_ORGANIZATION,
@@ -70,19 +69,6 @@ const columns = [
       ),
   },
 ];
-
-const percentColumnRender = (barType: BarType) => {
-  return function (text: string, record: IOrganization) {
-    return (
-      <PercentageTableCell
-        type={barType}
-        fraction={text}
-        total={record.shouldHaveResultsCount}
-        decimalPlaces={0}
-      ></PercentageTableCell>
-    );
-  };
-};
 
 const summaryColumns = [
   {
